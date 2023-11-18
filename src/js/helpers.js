@@ -3,12 +3,13 @@ import { Notify } from 'notiflix';
 export const showSuccess = message => {
   Notify.success(`${message}`, {
     timeout: 1500,
+    position: 'right-top',
   });
 };
 
 export const showFailure = (
   message = 'Sorry, there are no images matching your search query. Please try again.',
-  params = { timeout: 1500, position: 'center-top', distance: '100px' }
+  params = { position: 'center-top', distance: '100px' }
 ) => {
   Notify.failure(`${message}`, params);
 };

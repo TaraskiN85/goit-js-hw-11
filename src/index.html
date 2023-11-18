@@ -10,12 +10,6 @@
     <nav
       class="navbar navbar-expand-lg navbar-dark bg-secondary justify-content-center sticky-top"
     >
-      <!-- <div class="serch-container w-75">
-        <input type="search" class="search w-50" id="site-search" name="q" />
-        <button type="button" class="btn btn-primary align-center">
-          Search
-        </button>
-      </div> -->
       <form class="search-form w-100 justify-content-center" id="search-form">
         <input
           type="text"
@@ -32,9 +26,17 @@
     <div class="content-container">
       <div class="gallery"></div>
       <div class="load-btn-container">
-        <button class="load-more btn btn-outline-primary w-50" type="button">
+        <button
+          class="load-more btn btn-outline-primary w-50 collapse"
+          type="button"
+        >
           Load more
         </button>
+        <div class="text-container w-50 collapse">
+          <p class="end-results-text text-center">
+            We're sorry, but you've reached the end of search results.
+          </p>
+        </div>
       </div>
     </div>
     <script src="js/index.js" type="module"></script>

@@ -48,4 +48,21 @@
 
 .load-btn-container {
   height: 70px;
+  vertical-align: middle;
+}
+
+.text-container {
+  display: flex;
+  align-items: center;
+  background-color: #F54b45;
+  height: 40px;
+  border-radius: 5px;
+  margin: 20px auto;
+
+}
+
+.end-results-text {
+  font-size: 0.8rem;
+  color: #fff;
+  margin: auto;
 }

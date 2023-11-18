@@ -9,6 +9,7 @@ const search = document.querySelector('.search-btn');
 const searchField = document.querySelector('.search-input');
 const loadMoreBtn = document.querySelector('.load-more');
 const gallery = document.querySelector('.gallery');
+const endResults = document.querySelector('.text-container');
 
 let page, query, totalHits;
 
@@ -26,20 +27,27 @@ checkSearch();
 const searchImages = async event => {
   page = 1;
   event.preventDefault();
-  query = searchField.value;
+  query = searchField.value.trim();
+  endResults.classList.add('collapse');
+  loadMoreBtn.classList.add('collapse');
+
   const data = await fetchImages(query, page);
   try {
     if (data.hits.length === 0) {
       showFailure();
       gallery.innerHTML = '';
-      loadMoreBtn.classList.add('collapse');
     } else {
       totalHits = data.totalHits;
-      showSuccess(`Hooray! We found ${totalHits} images.`);
       searchField.value = '';
       checkSearch();
+      showSuccess(`Hooray! We found ${totalHits} images.`);
       gallery.innerHTML = createMarkup(data);
-      loadMoreBtn.classList.remove('collapse');
+      if (page < Math.ceil(totalHits / 40)) {
+        loadMoreBtn.classList.remove('collapse');
+      } else {
+        endResults.classList.remove('collapse');
+      }
+
       lightbox.refresh();
       smoothScroll();
     }
@@ -50,27 +58,25 @@ const searchImages = async event => {
 
 const loadMoreImages = async event => {
   event.preventDefault();
-  if (page >= Math.ceil(totalHits / 40)) {
-    showFailure(`We're sorry, but you've reached the end of search results.`, {
-      timeout: 1500,
-      position: 'center-bottom',
-      distance: '20px',
-    });
-    loadMoreBtn.classList.add('collapse');
-  } else {
-    page += 1;
-    const data = await fetchImages(query, page);
-    try {
-      if (data.hits.length === 0) {
-        showFailure();
-      } else {
-        gallery.insertAdjacentHTML('beforeend', createMarkup(data));
-        lightbox.refresh();
-        smoothScroll();
-      }
-    } catch {
+  page += 1;
+  endResults.classList.add('collapse');
+
+  const data = await fetchImages(query, page);
+  try {
+    if (data.hits.length === 0) {
       showFailure();
+    } else {
+      gallery.insertAdjacentHTML('beforeend', createMarkup(data));
+
+      lightbox.refresh();
+      smoothScroll();
+      if (page >= Math.ceil(totalHits / 40)) {
+        loadMoreBtn.classList.add('collapse');
+        endResults.classList.remove('collapse');
+      }
     }
+  } catch {
+    showFailure();
   }
 };
 
